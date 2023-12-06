@@ -1,0 +1,31 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id            String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String     @db.VarChar(255)
+  score         Int
+  progress      Int[]
+  day_streak    DateTime[] @db.Timestamp
+  wordsets_user Json[]
+}
+
+model public_data {
+  name  String @id @db.VarChar(255)
+  score Int
+}
+
+model users {
+  id       String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email    String @unique
+  password String
+}
+
+model wordsets {
+  id          String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title       String  @db.VarChar(255)
+  description String?
+words Json[]
+}
